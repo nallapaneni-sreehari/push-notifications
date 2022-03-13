@@ -1,4 +1,5 @@
 const publicVapidKey = "BImTqKD5brY-i46PVRmRxviFSn2mgLid6lc9es7lDkKZI6C1eUFzRt-vbby5MKEONENBgqGXddRpHSWqOlY1Dcs";
+const workerCdn = "https://cdn.jsdelivr.net/gh/sreeharinallapaneni149/push-notifications/client/worker.js";
 
 if('serviceWorker' in navigator)
 {
@@ -16,7 +17,8 @@ async function notify()
 
     console.log(`regestering service worker....`);
 
-    navigator.serviceWorker.register('/worker.js',{scope:'/'}).then(async function(reg) {
+    // navigator.serviceWorker.register('/worker.js',{scope:'/'}).then(async function(reg) {
+    navigator.serviceWorker.register(workerCdn,{scope:'/'}).then(async function(reg) {
         if(reg.installing) {
             console.log('Service worker installing');
         } else if(reg.waiting) {

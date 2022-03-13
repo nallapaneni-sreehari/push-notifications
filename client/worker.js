@@ -1,5 +1,8 @@
 console.log(`service worker loaded...`);
 
+const cdn = "https://cdn.jsdelivr.net/gh/sreeharinallapaneni149/push-notifications/client/client.js";
+
+
 self.addEventListener('push', e=>{
     console.log("Worker::: ", e);
     
