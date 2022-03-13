@@ -1,47 +1,100 @@
 const publicVapidKey = "BImTqKD5brY-i46PVRmRxviFSn2mgLid6lc9es7lDkKZI6C1eUFzRt-vbby5MKEONENBgqGXddRpHSWqOlY1Dcs";
 const workerCdn = "https://cdn.jsdelivr.net/gh/sreeharinallapaneni149/push-notifications/client/worker.js";
 
-if('serviceWorker' in navigator)
-{
-    notify().catch(err=>console.log("Error sending notification..", err));
+var appId = "";
+
+var subscription = {};
+
+main();
+
+async function main() {
+
+    if ('serviceWorker' in navigator) {
+        await registerServiceWorker();
+
+        getSubscription().then(res => {
+            subscription = res;
+        });
+
+        console.log("Subscription::: ", subscription);
+
+        if (subscription?.endpoint) {
+            console.log(`subscription already there :: `, subscription.endpoint);
+        }
+        else {
+            let subscription = await subscribe();
+            console.log(`subscription in main else::: `, subscription);
+        }
+
+
+        // notify().catch(err => console.log("Error sending notification..", err));
+    }
+    else {
+        // notify().catch(err => console.log("Error sending notification..", err));
+        console.log("Browser not supported...!")
+    }
 }
-else
+
+async function provideAppId(id)
 {
-    notify().catch(err=>console.log("Error sending notification..", err));
-    console.log("Browser not supported...!")
+    console.log(`ProvideAppId::: `,id);
+    appId = id;
 }
+
+
+async function getSubscription() {
+    return navigator.serviceWorker.ready
+      .then(function(registration) {
+        return registration.pushManager.getSubscription();
+    });
+}
+
+async function subscribe() {
+    navigator.serviceWorker.ready.then(function(registration) {
+      console.log('service ready subbbb', subscription.endpoint);
+
+      return registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+      });
+    }).then(async function(subscription) {
+      console.log('Subscribed', subscription.endpoint);
+      await callToSubscribe(subscription);
+    })
+    .catch(err=>{
+        console.log(`error in subscribe()`, err);
+    });
+}
+
+console.log(`App ID::: `, appId);
+
 
 async function notify()
 {
-    var subscription;
+    // var subscription;
 
     console.log(`regestering service worker....`);
 
     // navigator.serviceWorker.register('/worker.js',{scope:'/'}).then(async function(reg) {
-    navigator.serviceWorker.register('/worker.js',{scope:'/'}).then(async function(reg) {
+
+
+    console.log(`Sending push......`);
+
+}
+
+async function registerServiceWorker()
+{
+    navigator.serviceWorker.register('/worker.js').then(async function(reg) {
         if(reg.installing) {
             console.log('Service worker installing');
-        } else if(reg.waiting) {
+        } 
+        else if(reg.waiting) {
             console.log('Service worker installed');
-        } else if(reg.active) {
-            subscription = await reg.pushManager
-            .subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-            });
-            await callToSubscribe(subscription, navigator);
+        } 
+        else if(reg.active) {
             console.log('Service worker active');
         }
     });
-    // const subscription = await register.pushManager.subscribe({
-    //     userVisibleOnly: true,
-    //     applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    // });
-    
-    console.log(`Sending push......`);
-
-    
-    
 }
 
 
@@ -60,56 +113,14 @@ function urlBase64ToUint8Array(base64String) {
     return outputArray;
 }
 
-
-
-function findBrowser() {
-    if ((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1) {
-      console.log('Opera');return 'Opera';
-    }
-    else if (navigator.userAgent.indexOf("Edg") != -1) {
-      console.log('Edge',navigator.userAgent);return 'Edge'
-    }
-    else if (navigator.userAgent.indexOf("Chrome") != -1) {
-      console.log('Chrome',navigator.userAgent);return 'Chrome'
-    }
-    else if (navigator.userAgent.indexOf("Safari") != -1) {
-      console.log('Safari');return 'Safari'
-    }
-    else if (navigator.userAgent.indexOf("Firefox") != -1) {
-      console.log('Firefox');return 'Firefox'
-    }
-    else if ((navigator.userAgent.indexOf("MSIE") != -1) || (!!document.documentMode == true)) //IF IE > 10
-    {
-      console.log('IE');return 'IE'
-    }
-    else {
-      console.log('unknown');return 'unknown'
-    }
-}
-
-function detectOperatingSystem()
-{
-    var OSName="Unknown OS";
-    console.log(`OS::: `,navigator.platform);
-    
-    if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
-    if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
-    if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
-    if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
-
-    return OSName;
-}
-  
-
 async function callToSubscribe(subscription)
 {
-    const browserInfo = findBrowser();
+    var clientName = localStorage.getItem("user") || localStorage.getItem("username") || localStorage.getItem("userName") || localStorage.getItem("email") || localStorage.getItem("UserName");
 
-    const osInfo = detectOperatingSystem();
-
-    await fetch('http://localhost:5001/subscribe',{
+    // await fetch('http://localhost:5001/subscribe',{
+    await fetch('https://push-notifications-149.herokuapp.com/subscribe',{
         method:'POST',
-        body:JSON.stringify({subscription, browserInfo, osInfo, navigator}),
+        body:JSON.stringify({appId, subscription, clientInfo, clientName}),
         headers:{
             'content-type':'application/json'
         }
