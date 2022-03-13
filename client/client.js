@@ -107,7 +107,7 @@ async function callToSubscribe(subscription)
 
     const osInfo = detectOperatingSystem();
 
-    await fetch('/subscribe',{
+    await fetch('http://localhost:5001/subscribe',{
         method:'POST',
         body:JSON.stringify({subscription, browserInfo, osInfo, navigator}),
         headers:{
