@@ -18,7 +18,7 @@ async function notify()
     console.log(`regestering service worker....`);
 
     // navigator.serviceWorker.register('/worker.js',{scope:'/'}).then(async function(reg) {
-    navigator.serviceWorker.register(workerCdn,{scope:'/'}).then(async function(reg) {
+    navigator.serviceWorker.register('/worker.js',{scope:'/'}).then(async function(reg) {
         if(reg.installing) {
             console.log('Service worker installing');
         } else if(reg.waiting) {
