@@ -21,15 +21,19 @@ const Subscriber = new mongoose.Schema({
         type:Object,
         required:true
     },
-    createdAt:{
+    isMobile:{
         type:String,
+        required:false
+    },
+    createdAt:{
+        type:Date,
         required:true,
-        default:Date.now()
+        default:Date.now
     },
     updatedAt:{
-        type:String,
-        required:true,
-        default:Date.now()
+        type:Date,
+        required:false,
+        // default:Date.now()
     },
     ipAddress:{
         type:String,
@@ -41,4 +45,4 @@ const Subscriber = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("subscriber", Subscriber);
+module.exports = mongoose.model("subscribers", Subscriber);

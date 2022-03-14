@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 async function connect()
 {
-    const connectionUrl = "mongodb+srv://r151149:sree123@cluster0.ecexy.mongodb.net/subscriber?retryWrites=true&w=majority";
+    const connectionUrl = "mongodb+srv://r151149:sree123@cluster0.ecexy.mongodb.net/push-notification-db?retryWrites=true&w=majority";
 
     mongoose.connect(connectionUrl, {useNewUrlParser:true, useUnifiedTopology:true}, (err)=>{
         if(err) throw err;

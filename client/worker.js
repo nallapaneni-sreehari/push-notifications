@@ -2,14 +2,56 @@ console.log(`service worker loaded...`);
 
 
 self.addEventListener('push', e=>{
-    console.log("Worker::: ", e);
+    console.log("Worker::: ", e.data.json());
     
     const data = e.data.json();
 
-    console.log(`push received`);
+    var views = {id:data.data.notification_id, viewCount:1};
+
+    console.log(`push received, views::: `, views);
+
+    // fetch('http://localhost:5001/updateViewsClicks',{
+        fetch('https://push-notifications-149.herokuapp.com/updateViewsClicks',{
+        method:'POST',
+        body:JSON.stringify({views}),
+        headers:{
+            'content-type':'application/json'
+        }
+    })
+    .then(res=>console.log(`updated views`));
+
     
     self.registration.showNotification(data.title, {
-        body: 'Hello world',
-        icon:'http://image.ibb.co/frYOFd/tmlogo.png'
-    })
+        body: data.msg,
+        icon:data.icon,
+        badge:data.image,
+        image:data.image,
+        data:data.data
+    });
 });
+
+self.addEventListener('notificationclick',async function(e) {
+
+    console.log(`onClick worker:::`,e.notification);
+    
+    const data = e.notification.data;
+
+    var clicks = {id:data?.notification_id, clickCount:1};
+    console.log(`Clicked:::`, clicks);
+
+    e.notification.close();
+
+    e.waitUntil(
+        clients.openWindow(data?.url)
+    );
+    
+    // await fetch('http://localhost:5001/updateViewsClicks',{
+    await fetch('https://push-notifications-149.herokuapp.com/updateViewsClicks',{
+        method:'POST',
+        body:JSON.stringify({clicks}),
+        headers:{
+            'content-type':'application/json'
+        }
+    });
+    
+})
