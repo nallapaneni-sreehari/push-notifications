@@ -69,16 +69,19 @@ async function subscribe() {
 console.log(`App ID::: `, appId);
 
 
-async function notify()
-{
-    // var subscription;
 
-    console.log(`regestering service worker....`);
+async function sendNotification(data) {
+    console.log(`Send this n::: `, data);
 
-    // navigator.serviceWorker.register('/worker.js',{scope:'/'}).then(async function(reg) {
-
-
-    console.log(`Sending push......`);
+    // await fetch('http://localhost:5001/sendNotification', {
+    await fetch('https://push-notifications-149.herokuapp.com/sendNotification',{
+        method: 'POST',
+        body: JSON.stringify(JSON.parse(data)),
+        headers: {
+            'content-type': 'application/json'
+        }
+    });
+    console.log(`Sent Notification::: `);
 
 }
 

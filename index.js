@@ -88,44 +88,14 @@ app.post('/sendNotification', async (req,res)=>{
 
     console.log("Body::: ",req.body._id );
 
-    var subscriptionsInfo = await subscriberModel.find({ appId: req.body.appId});
+    var subscriptionsInfo = [];
+    subscriptionsInfo = await subscriberModel.find({ appId: req.body.appId});
 
     console.log(`subscriptionnn::: subscriptionsInfo`,subscriptionsInfo);
     
-    const subscription = subscriptionsInfo?.length ? subscriptionsInfo[1].subscription : "";
-
-    const data = 
+    for(let subscription of subscriptionsInfo)
     {
-        title:req.body?.title,
-        msg:req.body?.body,
-        icon:req.body?.icon,
-        data:{notification_id:req.body._id, url:req.body.url},
-        image:req.body.image
-    };
-
-    // res.status(201).json({});
-
-    const payload = JSON.stringify(data);
-
-    try
-    {
-        let sendNoti = await webpush.sendNotification(subscription, payload);
-
-        console.log(`sendNoti::: `, sendNoti);
-        
-        var updateObj = {
-            status:"sent",
-            $inc:{delivered:1},
-            sentAt:Date.now()
-        }
-        await notificationModel.updateOne({_id:ObjectId(req.body._id)},updateObj);
-
-        res.status(200).send({"messaga":"Notification sent !"});
-    }
-    catch(e)
-    {
-        console.log(`Error catch while pushing...`,e);
-        res.status(500).send({"messaga":"Internal server Error !"});
+        await sendNotification(req, subscription.subscription, res);
     }
     
 
@@ -171,6 +141,44 @@ app.post('/updateViewsClicks', async (req,res)=>{
 
 });
 
+
+
+async function sendNotification(req, subscription, res)
+{
+    const data = 
+    {
+        title:req.body?.title,
+        msg:req.body?.body,
+        icon:req.body?.icon,
+        data:{notification_id:req.body?._id, url:req.body?.url},
+        image:req.body?.image
+    };
+
+    // res.status(201).json({});
+
+    const payload = JSON.stringify(data);
+
+    try
+    {
+        let sendNoti = await webpush.sendNotification(subscription, payload);
+
+        console.log(`sendNoti::: `, sendNoti);
+        
+        var updateObj = {
+            status:"sent",
+            $inc:{delivered:1},
+            sentAt:Date.now()
+        }
+        await notificationModel.updateOne({_id:ObjectId(req.body._id)},updateObj);
+
+        // res.status(200).send({"messaga":"Notification sent !"});
+    }
+    catch(e)
+    {
+        console.log(`Error catch while pushing...`,e);
+        // res.status(500).send({"messaga":"Internal server Error !"});
+    }
+}
 
 const PORT = process.env.PORT || 5001;
 
