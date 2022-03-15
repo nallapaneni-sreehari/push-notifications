@@ -126,7 +126,7 @@ app.post('/createNotification', async (req,res)=>{
         body:req.body?.body,
         icon:req.body?.icon,
         url:req.body?.url,
-        appId:req.body?.appId,
+        appId:req.body?.appId ? req.body?.appId : "my-push-notifications-app",
         image:req.body?.image,
     };
 
