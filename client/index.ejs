@@ -9,18 +9,18 @@
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
     <title>Push Notification App</title>
 </head>
 
 <body style="background-color: gray;">
 
     <!-- bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-        </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-        </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
     <!-- <script>
         // localStorage.setItem("user", "sreehari");
@@ -33,163 +33,173 @@
     <script>
         provideAppId('my-push-notifications-app');
     </script>
-    <h1 class="text-center">Please Allow the Notifications</h1>
-    <h2 class="text-center mb-5">
-        App is Hosted on Heroku
-    </h2>
 
-
-    <div class="container">
+<div class="container">
+        <h1 class="text-center mt-2">Please Allow the Notifications</h1> 
+        <div class="text-center mt-3"> 
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Create Your Notification Here
+            </button>
+        </div>
         <div class="row">
-            <!-- <div class="col-md-4 col-md-offset-4"> -->
-                <!-- <div class="justify-content-center"> -->
-                    <form action="/createNotification" method="POST" name="myForm" class="row col-md-4" style="margin-left: 10px;">
-    
-                        <!-- App id -->
-                        <div class="col-md-4 mb-3">
-                            <label for="appId" class="form-label">Enter App Id</label>
-                            <input type="appId" name="appId" id="appId" class="form-control" required>
-                        </div>
-    
-    
-                        <!-- title -->
-                        <div class="col-md-4 mb-3">
-                            <label for="title" class="form-label">Enter Title</label>
-                            <input type="title" name="title" id="title" class="form-control" required>
-                        </div>
-    
-                        <!-- Body -->
-                        <div class="col-md-8 mb-3">
-                            <label for="body" class="form-label">Enter Body</label>
-                            <input type="body" name="body" id="body" class="form-control" required>
-                        </div>
-    
-                        <!-- Url -->
-                        <div class="col-md-8 mb-3">
-                            <label for="url" class="form-label">Enter Url</label>
-                            <input type="url" name="url" id="url" class="form-control">
-                        </div>
-    
-                        <!-- Icon -->
-                        <div class="col-md-8 mb-3">
-                            <label for="icon" class="form-label">Enter Icon image Url</label>
-                            <input type="icon" name="icon" id="icon" class="form-control" required>
-                        </div>
-    
-                        <!-- Big image -->
-                        <div class="col-md-8 mb-3">
-                            <label for="image" class="form-label">Enter Big image Url</label>
-                            <input type="text" name="image" id="image" class="form-control">
-                        </div>
-    
-                        <!-- Badge image -->
-                        <div class="col-md-8 mb-3">
-                            <label for="badge" class="form-label">Enter Badge image Url</label>
-                            <input type="badge" name="badge" id="badge" class="form-control">
-                        </div>
-    
-                        <!-- submit -->
-                        <div class="col-8 mt-3">
-                            <button type="submit" class="btn btn-primary">Create Notification</button>
-                        </div>
-                    </form>
-                <!-- </div> -->
-            <!-- </div> -->
-    
-            <div class="col-md-8">
-                <div class="container mb-5">
-                    <div class="table-responsive mt-5">
-                        <table class="table" style="background-color: white;">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Title</th>
-                                    <th>Body</th>
-                                    <th>Status</th>
-                                    <th>Delivered</th>
-                                    <th>Views</th>
-                                    <th>Clicks</th>
-                                    <th>Created at</th>
-                                    <th>Updated at</th>
-                                    <th>Actions</th>
-    
-                                </tr>
-                            </thead>
-    
-                            <tbody>
-                                <% notifications.forEach(n=> { %>
-                                    <tr>
-                                        <td>
-                                            <%= notifications.indexOf(n)+1 %>
-                                        </td>
-    
-                                        <td>
-                                            <span>
-                                                <%= n.title.length>40 ? n.title.substring(0, 20) +'...' : n.title %>
-                                            </span>
-                                        </td>
-    
-                                        <td>
-                                            <span>
-                                                <%= n.body.length>40 ? n.body.substring(0, 20) +'...' : n.body %>
-                                            </span>
-                                        </td>
-    
-                                        <td>
-                                            <span>
-                                                <%= n.status ? n.status : "NA" %>
-                                            </span>
-                                        </td>
-    
-                                        <td>
-                                            <span>
-                                                <%= n.delivered ? n.delivered : 0 %>
-                                            </span>
-                                        </td>
-    
-                                        <td>
-                                            <span>
-                                                <%= n.views ? n.views : 0 %>
-                                            </span>
-                                        </td>
-    
-                                        <td>
-                                            <span>
-                                                <%= n.clicks ? n.clicks : 0 %>
-                                            </span>
-                                        </td>
-    
-                                        <td>
-                                            <span>
-                                                <%= new Date(n.createdAt).toLocaleString() %>
-                                            </span>
-    
-                                        </td>
-    
-                                        <td>
-                                            <span>
-                                                <%= n.updateAt ? new Date(n.updateAt).toLocaleString() : "NA" %>
-                                            </span>
-                                        </td>
-    
-                                        <td>
-                                            <button type="button" class="btn btn-primary col-md-8"
-                                                onClick="editNotification()">Edit</button>
-                                            <button type="button" class="btn btn-success mt-2 col-md-8"
-                                                onClick="sendNotification('<%= JSON.stringify(n) %>')">Send</button>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="table-responsive mt-5">
+                <table class="table table-sm" style="background-color: white;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Body</th>
+                            <th>Status</th>
+                            <th>Delivered</th>
+                            <th>Views</th>
+                            <th>Clicks</th>
+                            <th>Created at</th>
+                            <th>Updated at</th>
+                            <th>Actions</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% notifications.forEach(n=> { %>
+                            <tr>
+                                <td>
+                                    <%= notifications.indexOf(n)+1 %>
+                                </td>
+
+                                <td>
+                                    <span>
+                                        <%= n.title.length>40 ? n.title.substring(0, 20) +'...' : n.title %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span>
+                                        <%= n.body.length>40 ? n.body.substring(0, 20) +'...' : n.body %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span>
+                                        <%= n.status ? n.status : "NA" %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span>
+                                        <%= n.delivered ? n.delivered : 0 %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span>
+                                        <%= n.views ? n.views : 0 %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span>
+                                        <%= n.clicks ? n.clicks : 0 %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span>
+                                        <%= new Date(n.createdAt).toLocaleString() %>
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    <span>
+                                        <%= n.updateAt ? new Date(n.updateAt).toLocaleString() : "NA" %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-primary col-md-8"
+                                        onClick="editNotification()">Edit
+                                    </button>
+                                    <button type="button" class="btn btn-success mt-2 col-md-8"
+                                        onClick="sendNotification('<%= JSON.stringify(n) %>')">Send
+                                    </button>
+                                    <button class="align-text-top" onClick="deleteNotification('<%= JSON.stringify(n) %>')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-
-
-
+      
+      <form action="/createNotification" method="POST" name="myForm">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Create Your Notification</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <!-- App id -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="appId" class="form-label">Enter App Id</label>
+                                <input type="appId" name="appId" placeholder="my-unique-app-id (Should be unique)." id="appId" class="form-control" required>
+                            </div>
+        
+        
+                            <!-- title -->
+                            <div class="col-md-8 mb-3">
+                                <label for="title" class="form-label">Enter Title</label>
+                                <input type="title" name="title" id="title" placeholder="Example Title : Hi, My first Notification" class="form-control" required>
+                            </div>
+                        </div>
+    
+                        <!-- Body -->
+                        <div class="col-md-12 mb-3">
+                            <label for="body" class="form-label">Enter Body</label>
+                            <textarea type="body" name="body" rows="4" id="body" class="form-control" placeholder="Enter notification body here" required></textarea>
+                        </div>
+    
+                        <!-- Url -->
+                        <div class="col-md-12 mb-3">
+                            <label for="url" class="form-label">Enter Url</label>
+                            <input type="url" name="url" id="url" placeholder="https://example.com" class="form-control">
+                        </div>
+    
+                        <!-- Icon -->
+                        <div class="col-md-12 mb-3">
+                            <label for="icon" class="form-label">Enter Icon image Url</label>
+                            <input type="icon" name="icon" id="icon" placeholder="http://www.example.com/icon.png" class="form-control" required>
+                        </div>
+    
+                        <!-- Big image -->
+                        <div class="col-md-12 mb-3">
+                            <label for="image" class="form-label">Enter Big image Url</label>
+                            <input type="text" name="image" id="image" placeholder="http://www.example.com/image.png" class="form-control">
+                        </div>
+    
+                        <!-- Badge image -->
+                        <div class="col-md-12 mb-3">
+                            <label for="badge" class="form-label">Enter Badge image Url (Optional)</label>
+                            <input type="badge" name="badge" id="badge" placeholder="http://www.example.com/badge.png" class="form-control">
+                        </div>
+    
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success">Create</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </form>
 
 
 </body>

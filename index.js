@@ -98,7 +98,22 @@ app.post('/sendNotification', async (req,res)=>{
         await sendNotification(req, subscription.subscription, res);
     }
     
+});
 
+app.post('/deleteNotification', async (req,res)=>{
+
+    console.log("Body::: ",req.body._id );
+
+    try
+    {
+        await notificationModel.deleteOne({_id:ObjectId(req.body?._id)});
+    }
+    catch(e){
+        console.log("Error deleting notification...", e);
+    }
+
+    res.redirect('/');
+    
 });
 
 app.post('/createNotification', async (req,res)=>{
