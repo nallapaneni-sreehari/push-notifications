@@ -89,8 +89,8 @@ async function sendNotification(data) {
 async function deleteNotification(data) {
     console.log(`Send this n::: `, data);
 
-    await fetch('http://localhost:5001/deleteNotification', {
-    // await fetch('https://push-notifications-149.herokuapp.com/deleteNotification',{
+    // await fetch('http://localhost:5001/deleteNotification', {
+    await fetch('https://push-notifications-149.herokuapp.com/deleteNotification',{
         method: 'POST',
         body: JSON.stringify(JSON.parse(data)),
         headers: {
