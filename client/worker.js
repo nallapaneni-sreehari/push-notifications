@@ -10,7 +10,7 @@ self.addEventListener("push", (e) => {
   console.log(`push received, views::: `, views);
 
   // fetch('http://localhost:5001/updateViewsClicks',{
-  fetch("https://push-notifications-iota.vercel.app//updateViewsClicks", {
+  fetch("https://push-notifications-iota.vercel.app/updateViewsClicks", {
     method: "POST",
     body: JSON.stringify({ views }),
     headers: {
@@ -40,7 +40,7 @@ self.addEventListener("notificationclick", async function (e) {
   e.waitUntil(clients.openWindow(data?.url));
 
   // await fetch('http://localhost:5001/updateViewsClicks',{
-  await fetch("https://push-notifications-iota.vercel.app//updateViewsClicks", {
+  await fetch("https://push-notifications-iota.vercel.app/updateViewsClicks", {
     method: "POST",
     body: JSON.stringify({ clicks }),
     headers: {

@@ -69,7 +69,7 @@ async function sendNotification(data) {
   console.log(`Send this n::: `, data);
 
   // await fetch('http://localhost:5001/sendNotification', {
-  await fetch("https://push-notifications-iota.vercel.app//sendNotification", {
+  await fetch("https://push-notifications-iota.vercel.app/sendNotification", {
     method: "POST",
     body: JSON.stringify(JSON.parse(data)),
     headers: {
@@ -83,16 +83,13 @@ async function deleteNotification(data) {
   console.log(`Send this n::: `, data);
 
   // await fetch('http://localhost:5001/deleteNotification', {
-  await fetch(
-    "https://push-notifications-iota.vercel.app//deleteNotification",
-    {
-      method: "POST",
-      body: JSON.stringify(JSON.parse(data)),
-      headers: {
-        "content-type": "application/json",
-      },
-    }
-  );
+  await fetch("https://push-notifications-iota.vercel.app/deleteNotification", {
+    method: "POST",
+    body: JSON.stringify(JSON.parse(data)),
+    headers: {
+      "content-type": "application/json",
+    },
+  });
 }
 
 async function registerServiceWorker() {
@@ -131,7 +128,7 @@ async function callToSubscribe(subscription) {
     localStorage.getItem("UserName");
 
   // await fetch('http://localhost:5001/subscribe',{
-  await fetch("https://push-notifications-iota.vercel.app//subscribe", {
+  await fetch("https://push-notifications-iota.vercel.app/subscribe", {
     method: "POST",
     body: JSON.stringify({ appId, subscription, clientInfo, clientName }),
     headers: {
